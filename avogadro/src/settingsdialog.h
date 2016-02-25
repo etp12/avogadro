@@ -53,7 +53,7 @@ namespace Avogadro {
       void qualityChanged(int value);
       void fogChanged(int value);
   };
-
+  
 } // end namespace Avogadro
 
 #endif
