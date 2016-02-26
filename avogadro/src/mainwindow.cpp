@@ -117,9 +117,6 @@
 #include <Eigen/Geometry>
 #include <Eigen/Array>
 
-// Google breakpapd
-#include "client/windows/handler/exception_handler.h"
-
 #define USEQUAT
 // This is a "hidden" exported Qt function on the Mac for Qt-4.x.
 #ifdef Q_WS_MAC
@@ -2586,18 +2583,6 @@ protected:
     return d->glWidget->quality();
   }
 
-  bool MainWindow::getNoAskErrorReport() const
-  {
-	  QSettings settings;
-	  return settings.value("noAskErrorReport").toBool();
-  }
-
-  bool MainWindow::getSendErrorReport() const
-  {
-	  QSettings settings;
-	  return settings.value("sendErrorReport").toBool();
-  }
-
   void MainWindow::setFogLevel(int level)
   {
     d->glWidget->setFogLevel(level);
@@ -2608,12 +2593,7 @@ protected:
   {
     return d->glWidget->fogLevel();
   }
-  void MainWindow::setErrorReport(bool value, bool send)
-  {
-	  QSettings settings;
-	  settings.setValue("noAskErrorReport", value);
-	  settings.setValue("sendErrorReport", send);
-  }
+
   void MainWindow::newView()
   {
     QWidget *widget = new QWidget();

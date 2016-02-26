@@ -54,9 +54,6 @@
 #include "mainwindow.h"
 #include "application.h"
 
-// Google breakpapd
-#include "client/windows/handler/exception_handler.h"
-
 #ifdef Q_WS_X11
   #include <X11/Xlib.h>
 #endif
@@ -74,19 +71,8 @@ using namespace Avogadro;
 void printVersion(const QString &appName);
 void printHelp(const QString &appName);
 
-//for Breakpad error reporting
-bool sendErrorDialog(void* context, EXCEPTION_POINTERS* exinfo, MDRawAssertionInfo* assertion);
-struct arginfo {
-	int argc;
-	char **argv;
-}*args;
-
 int main(int argc, char *argv[])
 {
-	//save main args in case of crash
-	args = new struct arginfo;
-	args->argc = argc;
-	args->argv = argv;
 
 #ifdef Q_WS_X11
   if(Library::threadedGL()) {
@@ -288,14 +274,6 @@ int main(int argc, char *argv[])
     }
   }
 
-  //initate Google Breakpad
-  google_breakpad::ExceptionHandler *pHandler = new google_breakpad::ExceptionHandler(
-	  L"crash-reports",
-	  sendErrorDialog,
-	  NULL,
-	  args,
-	  google_breakpad::ExceptionHandler::HANDLER_ALL);
-
   window->show();
   return app.exec();
 }
@@ -331,38 +309,3 @@ void printHelp(const QString &appName)
   #endif
 }
 
-bool sendErrorDialog(void* context, EXCEPTION_POINTERS* exinfo, MDRawAssertionInfo* assertion) {
-	QSettings settings;
-	if (settings.value("noAskErrorReport").toBool())
-		return settings.value("sendErrorReport").toBool();
-	else {
-		//TODO: check if 'do not ask again' setting is set
-
-		//recreate an Application since the original may have crashed
-		//QMessageBox will not display without this
-		Application app(args->argc, args->argv);
-
-		//free memory from struct arginfo args
-		delete(args);
-
-		QMessageBox msgBox(QMessageBox::Question, "Avogadro", "Send error report?", 0, NULL);
-
-		QAbstractButton* yes = (QAbstractButton*)msgBox.addButton(QMessageBox::Yes);
-		QAbstractButton* no = (QAbstractButton*)msgBox.addButton(QMessageBox::No);
-
-		int ret = msgBox.exec();
-		bool send;
-		if (ret == QMessageBox::Yes) {
-			send = true;
-		}
-		else {
-			send = false;
-		}
-
-		//if (askAgain.checkState() == Qt::Checked) {
-		//	settings.setValue("sendErrorReport", send);
-	//	}
-		return send;
-		//}
-	}
-}

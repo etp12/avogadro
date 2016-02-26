@@ -38,9 +38,6 @@
 #include <QFileDialog>
 #include <QTabWidget>
 
-//Google Breakpad
-#include "client/windows/handler/exception_handler.h"
-
 class QUndoStack;
 class QUndoCommand;
 class QStackedLayout;
@@ -76,8 +73,6 @@ namespace Avogadro {
       MainWindow(const QString &fileName);
       ~MainWindow();
       int painterQuality() const;
-	  bool getNoAskErrorReport() const;
-	  bool getSendErrorReport() const;
       int fogLevel() const;
       bool renderAxes() const;
       bool renderDebug() const;
@@ -164,7 +159,6 @@ namespace Avogadro {
       void setBackgroundColor();
       void setPainterQuality(int quality);
       void setFogLevel(int level);
-	  void setErrorReport(bool value, bool send);
 
       /**
        * Slot to switch glWidget to the perspective projection mode
