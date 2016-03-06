@@ -1734,7 +1734,7 @@ protected:
 
   void MainWindow::exportVRML() 
   {
-	  //open VRML dialog
+	  
 
   }
 
