@@ -55,7 +55,6 @@
       <string>Export</string>
      </property>
      <addaction name="actionExportGraphics"/>
-     <addaction name="actionVRML"/>
     </widget>
     <widget class="QMenu" name="menuImport">
      <property name="title">

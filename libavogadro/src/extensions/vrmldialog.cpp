@@ -1,5 +1,8 @@
 #include "vrmldialog.h"
+#include <QDialog>
+#include <QList>
 
+#include <Eigen/Core>
 
 namespace Avogadro
 {
