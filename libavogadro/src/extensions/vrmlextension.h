@@ -27,8 +27,6 @@ namespace Avogadro
 		GLWidget* m_glwidget;
 		VRMLDialog* m_VRMLDialog;
 
-	private Q_SLOTS:
-		void render();
 	};
 	class VRMLExtensionFactory : public QObject, public PluginFactory
 	{

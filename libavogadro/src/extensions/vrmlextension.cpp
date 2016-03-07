@@ -35,20 +35,13 @@ namespace Avogadro
 		if (!m_VRMLDialog)
 		{
 			m_VRMLDialog = new VRMLDialog(static_cast<QWidget*>(parent()), 0);
-			//      m_POVRayDialog->setImageSize(m_glwidget->width(), m_glwidget->height());
-			connect(m_VRMLDialog, SIGNAL(render()),
-				this, SLOT(render()));
-			connect(m_glwidget, SIGNAL(resized()),
-				m_VRMLDialog, SLOT(resized()));
 			m_VRMLDialog->show();
 		}
 		else {
-
 			m_VRMLDialog->show();
 		}
 		return 0;
 	}
-	void VRMLExtension::render() {
-	}
+
 }
 Q_EXPORT_PLUGIN2(vrmlextension, Avogadro::VRMLExtensionFactory)

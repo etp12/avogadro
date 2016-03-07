@@ -17,13 +17,14 @@ namespace Avogadro {
 	public:
 		explicit VRMLDialog(QWidget* parent, Qt::WindowFlags f);
 		~VRMLDialog();
-		/**
-		* Set the file name of the POV-Ray file
-		*/
 		void setFileName(const QString& fileName);
+	
+	public Q_SLOTS:	
+		void selectDirectory();
 
 	private:
 		Ui::VRMLDialog ui;
+		QString path;
 
 	};
 }
