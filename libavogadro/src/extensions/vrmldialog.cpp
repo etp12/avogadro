@@ -56,6 +56,10 @@ namespace Avogadro
 		return ui.fileName->text();
 	}
 
+	double VRMLDialog::scale()
+	{
+		return ui.doubleSpinBox->value();
+	}
 	void VRMLDialog::selectFileName()
 	{
 		// Load a file

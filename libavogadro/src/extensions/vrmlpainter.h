@@ -20,6 +20,7 @@ namespace Avogadro
 	class VRMLPainter : public Painter
 	{
 	public:
+		double scale;
 		/**
 		* Constructor.
 		* @param quality defaults to -1, valid range from 0 to 4.
@@ -146,7 +147,7 @@ namespace Avogadro
 	class VRMLPainterDevice : public PainterDevice
 	{
 	public:
-		VRMLPainterDevice(const QString& filename, const GLWidget* glwidget);
+		VRMLPainterDevice(const QString& filename, const GLWidget* glwidget, const double scale);
 		~VRMLPainterDevice();
 
 		void initializeVRML();
@@ -161,7 +162,7 @@ namespace Avogadro
 
 		int width() { return m_glwidget->width(); }
 		int height() { return m_glwidget->height(); }
-
+	
 	private:
 		const GLWidget *m_glwidget;
 		QList<Engine *> m_engines;

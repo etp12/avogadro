@@ -58,6 +58,7 @@ namespace Avogadro
 		*/
 		QString fileName();
 
+		double scale();
 
 	private:
 		Ui::VRMLDialog ui;

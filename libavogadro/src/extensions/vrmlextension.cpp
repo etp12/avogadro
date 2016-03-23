@@ -107,6 +107,8 @@ namespace Avogadro
 			return;
 		}
 
+		double scale = m_VRMLDialog->scale();
+
 
 		// Check that the VRML executable exists - FIXME implement path search...
 		/*    QFileInfo info(m_VRMLDialog->command());
@@ -121,7 +123,7 @@ namespace Avogadro
 		if (VRMLFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
 
 			VRMLFile.close();
-			VRMLPainterDevice pd(fileName + ".wrl", m_glwidget);
+			VRMLPainterDevice pd(fileName + ".wrl", m_glwidget, scale);
 		}
 		else {
 			QMessageBox::warning(m_VRMLDialog, tr("Cannot Write to File."),

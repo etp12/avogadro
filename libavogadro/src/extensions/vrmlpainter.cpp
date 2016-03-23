@@ -16,6 +16,9 @@
 #include <QApplication>
 #include <Eigen/Geometry>
 
+#include <iomanip>
+#include <iostream>
+
 namespace Avogadro
 {
 	class VRMLPainterPrivate
@@ -45,6 +48,7 @@ namespace Avogadro
 
 	VRMLPainter::VRMLPainter() : d(new VRMLPainterPrivate)
 	{
+		
 	}
 
 	VRMLPainter::~VRMLPainter()
@@ -97,13 +101,65 @@ namespace Avogadro
 	void VRMLPainter::drawCylinder(const Vector3d &end1, const Vector3d &end2,
 		double radius)
 	{
+		double x1, x2, y1, y2, z1, z2;
+		x1 = end1.x();
+		x2 = end2.x();
+		y1 = end1.y();
+		y2 = end2.y();
+		z1 = end1.z();
+		z2 = end2.z();
 
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		double dz = z2 - z1;
+
+		double length = sqrt(dx*dx + dy*dy + dz*dz);
+		double tx = dx / 2 + x1;
+		double ty = dy / 2 + y1;
+		double tz = dz / 2 + z1;
+
+		dx = dx / length;
+		dy = dy / length;
+		dz = dz / length;
+
+		double ax, ay, az, angle;
+
+		if (dy > 0.999) {
+			ax = 1.0;
+			ay = 0.0;
+			az = 0.0;
+			angle = 0.0;
+		}
+		else if (dy < -0.999) {
+			ax = 1.0;
+			ay = 0.0;
+			az = 0.0;
+			angle = 3.14159265359;
+		}
+		else {
+			ax = dz;
+			ay = 0.0;
+			az = dx * -1.0;
+			angle = acos(dy);
+		}
+		length = length / 2.0;
+		*(d->output) << "Transform {\n"
+			<< "\ttranslation\t" << tx << "\t" << ty << "\t" << tz
+			<< "\n\tscale " << " 1 " << length << " 1" 
+			<< "\n\trotation " << ax << " " << ay << " " << az << " " << angle
+			<< "\n\tchildren Shape {\n"
+			<< "\t\tgeometry Cylinder {\n\t\t\tradius\t" << radius << "\n\t\t}\n"
+			<< "\t\tappearance Appearance {\n"
+			<< "\t\t\tmaterial Material {\n"
+			<< "\t\t\t\tdiffuseColor\t" << d->color.red() << "\t" << d->color.green()
+			<< "\t" << d->color.blue() << "\n\t\t\t}\n\t\t}\n\t}\n}\n";
 	}
 
 	void VRMLPainter::drawMultiCylinder(const Vector3d &end1, const Vector3d &end2,
 		double radius, int order, double)
 	{
-
+		if (order == 1)
+			drawCylinder(end1, end2, radius);
 	}
 
 	void VRMLPainter::drawShadedSector(const Eigen::Vector3d &,
@@ -315,16 +371,17 @@ namespace Avogadro
 
 
 	VRMLPainterDevice::VRMLPainterDevice(const QString& filename,
-		const GLWidget* glwidget)
+		const GLWidget* glwidget,const double scale)
 	{
 		m_output = 0;
 		m_glwidget = glwidget;
 		m_painter = new VRMLPainter;
+		m_painter->scale = scale;
 		m_file = new QFile(filename);
 		if (!m_file->open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
 		m_output = new QTextStream(m_file);
-		m_output->setRealNumberPrecision(15);
+		m_output->setRealNumberPrecision(5);
 		m_painter->begin(m_output, m_glwidget->normalVector());
 
 		m_engines = m_glwidget->engines();
@@ -373,7 +430,7 @@ namespace Avogadro
 				LIGHT1_POSITION[2]));
 
 		// Output the VRML-Ray initialisation code
-		*(m_output) << "#VRML V2.0 utf8\n"
+		*(m_output) << "#VRML V2.0 utf8\n" 
 			<< "WorldInfo {\n"
 			<< "title "
 			<< "\"test\"\n" //NEED TITLE
@@ -395,6 +452,7 @@ namespace Avogadro
 
 	void VRMLPainterDevice::render()
 	{
+		
 		// Now render the scene using the active engines
 		foreach(Engine *engine, m_engines) {
 			if (engine->isEnabled()) {
