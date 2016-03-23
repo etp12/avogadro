@@ -87,11 +87,15 @@ namespace Avogadro
 
 	void VRMLPainter::drawSphere(const Vector3d &center, double radius)
 	{
+		double x = center.x() * this->scale;
+		double y = center.y() * this->scale;
+		double z = center.z() * this->scale;
+		double r = radius * this->scale * 0.45; //from py file
 		// Write out a VRMLRay sphere for rendering
 		*(d->output) << "Transform {\n"
-			<< "\ttranslation\t" << center.x() << "\t" << center.y() << "\t" << center.z()
+			<< "\ttranslation\t" << x << "\t" << y << "\t" << z
 			<< "\n\tchildren Shape {\n"
-			<< "\t\tgeometry Sphere {\n\t\t\tradius\t" << radius << "\n\t\t}\n"
+			<< "\t\tgeometry Sphere {\n\t\t\tradius\t" << r << "\n\t\t}\n"
 			<< "\t\tappearance Appearance {\n"
 			<< "\t\t\tmaterial Material {\n"
 			<< "\t\t\t\tdiffuseColor\t" << d->color.red() << "\t" << d->color.green()
@@ -144,8 +148,8 @@ namespace Avogadro
 		}
 		length = length / 2.0;
 		*(d->output) << "Transform {\n"
-			<< "\ttranslation\t" << tx << "\t" << ty << "\t" << tz
-			<< "\n\tscale " << " 1 " << length << " 1" 
+			<< "\ttranslation\t" << tx*this->scale << "\t" << ty*this->scale << "\t" << tz*this->scale
+			<< "\n\tscale " << " 1 " << length*this->scale << " 1" 
 			<< "\n\trotation " << ax << " " << ay << " " << az << " " << angle
 			<< "\n\tchildren Shape {\n"
 			<< "\t\tgeometry Cylinder {\n\t\t\tradius\t" << radius << "\n\t\t}\n"
