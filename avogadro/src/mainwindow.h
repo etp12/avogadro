@@ -72,7 +72,6 @@ namespace Avogadro {
       MainWindow();
       MainWindow(const QString &fileName);
       ~MainWindow();
-
       int painterQuality() const;
       int fogLevel() const;
       bool renderAxes() const;
@@ -130,6 +129,7 @@ namespace Avogadro {
       void revert();
       void importFile();
       void exportGraphics();
+	  void exportVRML();
 
       void closeFile();
 
@@ -183,7 +183,6 @@ namespace Avogadro {
       void clearRecentFiles();
       void about();
       void openManualURL() const;
-      void openForumURL() const;
       void openTutorialURL() const;
       void openReleaseNotesURL() const;
       void openWebsiteURL() const;
