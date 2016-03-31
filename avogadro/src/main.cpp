@@ -45,8 +45,6 @@
 #include <QDialog>
 #include <QCheckBox>
 
-#include <iostream>
-
 // get the SVN revision string
 #include "config.h" // krazy:exclude=includes
 
@@ -89,12 +87,6 @@ int main(int argc, char *argv[])
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
     }
 #endif
-  //set up Google Breakpad directory
-
-  if (!(QDir().mkdir("crash-reports")) && !(QDir("crash-reports").exists())) 
-	qDebug() << "Could not create crash-reports directory.";
-  else
-	qDebug() << "/crash-reports successfully created.";
 
   // set up groups for QSettings
   QCoreApplication::setOrganizationName("SourceForge");
