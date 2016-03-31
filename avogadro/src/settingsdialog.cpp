@@ -53,10 +53,7 @@ namespace Avogadro {
   {
     ui.stackedWidget->insertWidget(index, widget);
   }
-  void SettingsDialog::checkChanged(bool value) {
-	  ui.radioButton->setEnabled(value);
-	  ui.radioButton_2->setEnabled(value);
-  }
+  
   void SettingsDialog::buttonClicked(QAbstractButton *button)
   {
     QDialogButtonBox::ButtonRole role = ui.dialogButtonBox->buttonRole(button);

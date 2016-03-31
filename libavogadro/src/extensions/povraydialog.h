@@ -110,7 +110,7 @@ namespace Avogadro
 
   private:
     Ui::POVRayDialog ui;
-	
+
   Q_SIGNALS:
     void render();
     void preview(int, int);

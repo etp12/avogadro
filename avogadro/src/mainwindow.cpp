@@ -116,7 +116,6 @@
 
 #include <Eigen/Geometry>
 #include <Eigen/Array>
-
 #define USEQUAT
 // This is a "hidden" exported Qt function on the Mac for Qt-4.x.
 #ifdef Q_WS_MAC
@@ -1732,12 +1731,6 @@ protected:
     }
   }
 
-  void MainWindow::exportVRML() 
-  {
-	  
-
-  }
-
   void MainWindow::revert()
   {
     if ( !isDefaultFileName(d->fileName) ) {
@@ -1863,29 +1856,34 @@ protected:
     QDesktopServices::openUrl(QUrl("http://manual.avogadro.cc/"));
   }
 
+  void MainWindow::openForumURL() const
+  {
+    QDesktopServices::openUrl(QUrl("http://discuss.avogadro.cc/"));
+  }
+
   void MainWindow::openTutorialURL() const
   {
-    QDesktopServices::openUrl(QUrl("http://avogadro.cc/wiki/Tutorials"));
+    QDesktopServices::openUrl(QUrl("http://avogadro.cc/tutorials"));
   }
 
   void MainWindow::openFAQURL() const
   {
-    QDesktopServices::openUrl(QUrl("http://avogadro.cc/wiki/FAQ"));
+    QDesktopServices::openUrl(QUrl("http://avogadro.cc/FAQ"));
   }
 
   void MainWindow::openWebsiteURL() const
   {
-    QDesktopServices::openUrl(QUrl("http://avogadro.cc/wiki/"));
+    QDesktopServices::openUrl(QUrl("http://avogadro.cc/"));
   }
 
   void MainWindow::openReleaseNotesURL() const
   {
-    QDesktopServices::openUrl(QUrl( "http://avogadro.cc/wiki/Avogadro_" + QString(VERSION) ));
+    QDesktopServices::openUrl(QUrl( "http://avogadro.cc/Avogadro_" + QString(VERSION) ));
   }
 
   void MainWindow::openBugURL() const
   {
-    QDesktopServices::openUrl(QUrl("http://sourceforge.net/tracker/?group_id=165310&atid=835077"));
+    QDesktopServices::openUrl(QUrl("http://github.com/cryos/avogadro/issues"));
   }
 
   void MainWindow::setView(int index)
@@ -2998,8 +2996,6 @@ protected:
              this, SLOT( importFile() ) );
     connect( ui.actionExportGraphics, SIGNAL( triggered() ),
              this, SLOT( exportGraphics() ) );
-	connect(ui.actionVRML, SIGNAL(triggered()),
-			this, SLOT(exportVRML()));
 #ifdef Q_WS_MAC
     connect( ui.actionQuit, SIGNAL( triggered() ), this, SLOT( macQuit() ) );
     connect( ui.actionQuitTool, SIGNAL( triggered() ), this, SLOT( macQuit() ) );
@@ -3080,6 +3076,8 @@ protected:
              this, SLOT( openTutorialURL() ));
     connect( ui.actionFAQ, SIGNAL( triggered() ),
              this, SLOT( openFAQURL() ) );
+    connect( ui.actionAvogadro_Forum, SIGNAL( triggered() ),
+             this, SLOT( openForumURL() ));
     connect( ui.actionRelease_Notes, SIGNAL( triggered() ),
              this, SLOT( openReleaseNotesURL() ));
     connect( ui.actionAvogadro_Website, SIGNAL( triggered() ),

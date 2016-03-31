@@ -26,7 +26,7 @@
 
 #include <avogadro/global.h>
 #include <openbabel/babelconfig.h>
-#include <iostream>
+
 #ifdef ENABLE_GLSL
   #include <GL/glew.h>
 #endif
@@ -41,9 +41,6 @@
 #include <QLibraryInfo>
 #include <QProcess>
 #include <QFont>
-#include <QDir>
-#include <QDialog>
-#include <QCheckBox>
 
 #include <iostream>
 
@@ -73,7 +70,6 @@ void printHelp(const QString &appName);
 
 int main(int argc, char *argv[])
 {
-
 #ifdef Q_WS_X11
   if(Library::threadedGL()) {
     std::cout << "Enabling Threads" << std::endl;
@@ -89,12 +85,6 @@ int main(int argc, char *argv[])
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
     }
 #endif
-  //set up Google Breakpad directory
-
-  if (!(QDir().mkdir("crash-reports")) && !(QDir("crash-reports").exists())) 
-	qDebug() << "Could not create crash-reports directory.";
-  else
-	qDebug() << "/crash-reports successfully created.";
 
   // set up groups for QSettings
   QCoreApplication::setOrganizationName("SourceForge");
@@ -273,7 +263,6 @@ int main(int argc, char *argv[])
       }
     }
   }
-
   window->show();
   return app.exec();
 }
@@ -308,4 +297,3 @@ void printHelp(const QString &appName)
       ).arg(appName, VERSION).toStdWString();
   #endif
 }
-
