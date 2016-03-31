@@ -92,6 +92,12 @@ avogadro_plugin_nogl(povrayextension
   "povrayextension.cpp;povpainter.cpp;povraydialog.cpp"
   povraydialog.ui)
 
+###  "vrmlextension.cpp;vrmlpainter.cpp;vrmldialog.cpp"
+### VRML extension
+avogadro_plugin_nogl(vrmlextension
+  "vrmldialog.cpp;vrmlextension.cpp;vrmlpainter.cpp"
+  vrmldialog.ui)
+
 ### File import extension
 avogadro_plugin_nogl(fileimportextension fileimportextension.cpp fileimportdialog.ui)
 
