@@ -58,6 +58,7 @@ namespace Avogadro
 
 	double VRMLDialog::scale()
 	{
+		//figure out output size
 		return ui.doubleSpinBox->value();
 	}
 	void VRMLDialog::selectFileName()
