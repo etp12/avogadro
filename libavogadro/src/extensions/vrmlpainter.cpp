@@ -229,18 +229,6 @@ namespace Avogadro
 
 	void VRMLPainter::drawMesh(const Mesh & mesh, int mode)
 	{
-		// Now we draw the given mesh to the OpenGL widget
-		switch (mode)
-		{
-		case 0: // Filled triangles
-			break;
-		case 1: // Lines
-			break;
-		case 2: // Points
-			break;
-		}
-
-		// Render the triangles of the mesh
 		std::vector<Eigen::Vector3f> t = mesh.vertices();
 		std::vector<Eigen::Vector3f> n = mesh.normals();
 
@@ -250,24 +238,20 @@ namespace Avogadro
 
 		QString vertsStr, ivertsStr, normsStr, inormsStr;
 		QTextStream verts(&vertsStr);
-	
 		QTextStream iverts(&ivertsStr);
 
 		for (unsigned int i = 0; i < t.size(); ++i) {
 			if (i == t.size() - 1) {
 				verts << t[i].x() << " " << t[i].y() << " " << t[i].z();
-		//		iverts << n[i].x() << ", " << n[i].y() << ", " << n[i].z() << ", -1";
+				break;
 			}
 			verts << t[i].x() << " " << t[i].y() << " " << t[i].z() << ",\n";
-		//	iverts << n[i].x() << ", " << n[i].y() << ", " << n[i].z() << ", -1\n";
-			
 		}
 		// Now to write out the indices
 		for (unsigned int i = 0; i < t.size(); i += 3) {
 			iverts << i << ", " << i + 1 << ", " << i + 2 << ", -1,\n";
 
 		}
-		// Now to close off all the arrays
 
 		// Now to write out the full mesh - could be pretty big...
 		*(d->output) << "Shape {\n"
