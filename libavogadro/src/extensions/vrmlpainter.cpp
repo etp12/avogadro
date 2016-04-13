@@ -265,7 +265,45 @@ namespace Avogadro
 
 	void VRMLPainter::drawColorMesh(const Mesh & mesh, int mode)
 	{
-		drawMesh(mesh, mode);
+		std::vector<Eigen::Vector3f> t = mesh.vertices();
+		std::vector<Eigen::Vector3f> n = mesh.normals();
+		std::vector<Color3f> c = mesh.colors();
+
+		// If there are no triangles then don't bother doing anything
+		if (t.size() == 0 || t.size() != c.size())
+			return;
+
+		QString vertsStr, ivertsStr, colorStr;
+		QTextStream verts(&vertsStr);
+		QTextStream iverts(&ivertsStr);
+		QTextStream colors(&colorStr);
+
+		for (unsigned int i = 0; i < t.size(); ++i) {
+			if (i == t.size() - 1) {
+				verts << t[i].x() << " " << t[i].y() << " " << t[i].z();
+				colors << c[i].red() << " " << c[i].green() << " " << c[i].blue();
+				break;
+			}
+			verts << t[i].x() << " " << t[i].y() << " " << t[i].z() << ",\n";
+			colors << c[i].red() << " " << c[i].green() << " " << c[i].blue() << ", ";
+		}
+		// Now to write out the indices
+		for (unsigned int i = 0; i < t.size(); i += 3) {
+			iverts << i << ", " << i + 1 << ", " << i + 2 << ", -1,\n";
+
+		}
+
+		// Now to write out the full mesh - could be pretty big...
+		*(d->output) << "Shape {\n"
+			<< "\tgeometry IndexedFaceSet {\n"
+			<< "\t\tcoord Coordinate {\n"
+			<< "\t\t\tpoint ["
+			<< vertsStr << "\t\t\t]\n\t\t}\n"
+			<< "\t\tcoordIndex["
+			<< ivertsStr << "\t\t\t]\n"
+			<< "color Color {\n color ["
+			<< colorStr << "]\n}\n}\n}";
+	
 	}
 
 	int VRMLPainter::drawText(int, int, const QString &)
