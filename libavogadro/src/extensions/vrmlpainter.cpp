@@ -231,21 +231,32 @@ namespace Avogadro
 	{
 		std::vector<Eigen::Vector3f> t = mesh.vertices();
 		std::vector<Eigen::Vector3f> n = mesh.normals();
+		std::vector<Color3f> c;
+		
+		//take color from d->color
+		for (unsigned int j = 0; j < t.size(); j++) {
+			Color3f new_col;
+			new_col.set(d->color.red(), d->color.green(), d->color.blue());
+			c.push_back(new_col);
+		}
 
 		// If there are no triangles then don't bother doing anything
-		if (t.size() == 0)
+		if (t.size() == 0 || t.size() != c.size())
 			return;
 
-		QString vertsStr, ivertsStr, normsStr, inormsStr;
+		QString vertsStr, ivertsStr, colorStr;
 		QTextStream verts(&vertsStr);
 		QTextStream iverts(&ivertsStr);
+		QTextStream colors(&colorStr);
 
 		for (unsigned int i = 0; i < t.size(); ++i) {
 			if (i == t.size() - 1) {
-				verts << t[i].x() << " " << t[i].y() << " " << t[i].z();
+				verts << t[i].x()*this->scale << " " << t[i].y()*this->scale << " " << t[i].z()*this->scale;
+				colors << c[i].red() << " " << c[i].green() << " " << c[i].blue();
 				break;
 			}
-			verts << t[i].x() << " " << t[i].y() << " " << t[i].z() << ",\n";
+			verts << t[i].x()*this->scale << " " << t[i].y()*this->scale << " " << t[i].z()*this->scale << ",\n";
+			colors << c[i].red() << " " << c[i].green() << " " << c[i].blue() << ", ";
 		}
 		// Now to write out the indices
 		for (unsigned int i = 0; i < t.size(); i += 3) {
@@ -260,7 +271,9 @@ namespace Avogadro
 			<< "\t\t\tpoint ["
 			<< vertsStr << "\t\t\t]\n\t\t}\n"
 			<< "\t\tcoordIndex["
-			<< ivertsStr << "\t\t\t]\n\t}\n}";
+			<< ivertsStr << "\t\t\t]\n"
+			<< "color Color {\n color ["
+			<< colorStr << "]\n}\n}\n}";
 	}
 
 	void VRMLPainter::drawColorMesh(const Mesh & mesh, int mode)
@@ -268,7 +281,7 @@ namespace Avogadro
 		std::vector<Eigen::Vector3f> t = mesh.vertices();
 		std::vector<Eigen::Vector3f> n = mesh.normals();
 		std::vector<Color3f> c = mesh.colors();
-
+		
 		// If there are no triangles then don't bother doing anything
 		if (t.size() == 0 || t.size() != c.size())
 			return;
@@ -280,11 +293,11 @@ namespace Avogadro
 
 		for (unsigned int i = 0; i < t.size(); ++i) {
 			if (i == t.size() - 1) {
-				verts << t[i].x() << " " << t[i].y() << " " << t[i].z();
+				verts << t[i].x()*this->scale << " " << t[i].y()*this->scale << " " << t[i].z()*this->scale;
 				colors << c[i].red() << " " << c[i].green() << " " << c[i].blue();
 				break;
 			}
-			verts << t[i].x() << " " << t[i].y() << " " << t[i].z() << ",\n";
+			verts << t[i].x()*this->scale << " " << t[i].y()*this->scale << " " << t[i].z()*this->scale << ",\n";
 			colors << c[i].red() << " " << c[i].green() << " " << c[i].blue() << ", ";
 		}
 		// Now to write out the indices

@@ -39,7 +39,7 @@ namespace Avogadro
 		ui.setupUi(this);
 		connect(ui.selectFileName, SIGNAL(clicked()), this, SLOT(selectFileName()));
 		connect(ui.render, SIGNAL(clicked()), this, SLOT(renderClicked()));
-		
+		connect(ui.doubleSpinBox, SIGNAL(clicked()), this, SLOT(calcVRML()));
 	}
 
 	VRMLDialog::~VRMLDialog()
@@ -80,5 +80,9 @@ namespace Avogadro
 		
 	}
 
+	void VRMLDialog::calcVRML()
+	{
+
+	}
 } // End namespace Avogadro
 
